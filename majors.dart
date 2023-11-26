@@ -10,9 +10,10 @@ class Majors extends StatelessWidget {
       'MOBILEAPP': CoursePage(courseName: 'MOBILEAPP'),
     },
     'Electrical Engineering': {
-      'ENG200': CoursePage(courseName: 'ENG200'),
+      'ENG500': CoursePage(courseName: 'ENG200'),
       'ENG400': CoursePage(courseName: 'ENG400'),
       'ENG678': CoursePage(courseName: 'ENG678'),
+      'ENG300': CoursePage(courseName: 'ENG300'),
     },
     
     // Add more majors and their courses as needed
