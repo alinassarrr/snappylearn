@@ -35,10 +35,10 @@ class _MajorsState extends State<Majors> {
           children: <Widget>[
             DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.blue,
+                color: Color.fromARGB(255, 187, 95, 182),
               ),
               child: Text(
-                'Favorite Items',
+                'MyCourses',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 24,
