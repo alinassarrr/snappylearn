@@ -1,10 +1,6 @@
 import 'package:app1/majors.dart';
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const LoginPage());
-}
-
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -24,7 +20,7 @@ class _MyAppState extends State<LoginPage> {
         appBar: AppBar(),
         body: Column(
           children: [
-           const Text(
+            const Text(
               'Welcome Back!',
               style: TextStyle(
                 fontSize: 40,
@@ -40,10 +36,10 @@ class _MyAppState extends State<LoginPage> {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 30),
-              child:Form(
+              child: Form(
                 child: Column(
                   children: [
-                     TextFormField(
+                    TextFormField(
                       keyboardType: TextInputType.name,
                       decoration: const InputDecoration(
                         labelText: 'Username',
@@ -59,10 +55,10 @@ class _MyAppState extends State<LoginPage> {
                         return value!.isEmpty ? 'Please enter username' : null;
                       },
                     ),
-                     const SizedBox(height: 16.0),
+                    const SizedBox(height: 16.0),
                     TextFormField(
                       keyboardType: TextInputType.visiblePassword,
-                      decoration:  const InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Password',
                         hintText: 'Enter your password',
                         prefixIcon: Icon(
@@ -73,44 +69,31 @@ class _MyAppState extends State<LoginPage> {
                       ),
                       onChanged: (String value) {},
                       validator: (value) {
-                        return value!.isEmpty ? 'Please enter valid password' : null;
+                        return value!.isEmpty
+                            ? 'Please enter valid password'
+                            : null;
                       },
                     ),
-                     const SizedBox(height: 16.0),
+                    const SizedBox(height: 16.0),
                     ElevatedButton(
                       onPressed: () {
-                         _navigatorKey.currentState!.pushReplacement(
+                        _navigatorKey.currentState!.pushReplacement(
                           MaterialPageRoute(builder: (context) => Majors()),
                         );
                       },
-                      child: const Text('Login', style: TextStyle(color: Colors.white)),
+                      child: const Text('Login',
+                          style: TextStyle(color: Colors.white)),
                       style: ElevatedButton.styleFrom(
-                        
-                        backgroundColor:Colors.black,
+                        backgroundColor: Colors.black,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                       ),
                     ),
-                   const SizedBox(height: 16.0),
-                    GestureDetector(
-                      onTap: () {
-                       
-                      },
-                      child:  const Text(
-                        'Create a new account',
-                        style: TextStyle(
-                          color: Colors.blue,
-                          decoration: TextDecoration.underline,
-                        ),
-                      ),
-                    ),
                     const SizedBox(height: 16.0),
-                     GestureDetector(
-                      onTap: () {
-                      
-                      },
-                      child:  const Text(
+                    GestureDetector(
+                      onTap: () {},
+                      child: const Text(
                         'Forget Passwords',
                         style: TextStyle(
                           color: Colors.blue,
@@ -129,3 +112,11 @@ class _MyAppState extends State<LoginPage> {
   }
 }
 
+
+
+
+/*Widget build(BuildContext context) {
+     double screenWidth = MediaQuery.of(context).size.width;
+     if (MediaQuery.of(context).orientation == Orientation.landscape) {
+       screenWidth = screenWidth * 0.8;
+     }*/
