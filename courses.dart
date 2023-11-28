@@ -1,28 +1,29 @@
 import 'package:flutter/material.dart';
+import 'flipcard.dart';
 
-class CoursesPage extends StatefulWidget {
-  final String major;
+class CoursePage extends StatefulWidget {
+  final String courseName;
   final Map<String, Widget> coursePages;
   final Function(String) onCourseFavoriteToggle;
 
-  CoursesPage(
-      {required this.major,
-      required this.coursePages,
-      required this.onCourseFavoriteToggle});
+  CoursePage({
+    required this.courseName,
+    required this.coursePages,
+    required this.onCourseFavoriteToggle,
+  });
 
   @override
   _CoursesPageState createState() => _CoursesPageState();
 }
 
-class _CoursesPageState extends State<CoursesPage> {
-  // A set to keep track of favorited courses
+class _CoursesPageState extends State<CoursePage> {
   Set<String> favoritedCourses = Set<String>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Courses of - ${widget.major}'),
+        title: Text('Courses of - ${widget.courseName}'),
       ),
       body: ListView.builder(
         itemCount: widget.coursePages.length,
@@ -35,7 +36,12 @@ class _CoursesPageState extends State<CoursesPage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => widget.coursePages[courseName]!,
+                    builder: (context) => Flip(
+                      courseName: courseName,
+                      onPointsClaimed: () {
+                        setState(() {});
+                      },
+                    ),
                   ),
                 );
               },
@@ -45,11 +51,10 @@ class _CoursesPageState extends State<CoursesPage> {
                   borderRadius: BorderRadius.circular(8.0),
                 ),
                 padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
-                fixedSize: Size(200, 125), // Set the size as needed
+                fixedSize: Size(200, 125),
               ),
               child: Stack(
                 children: [
-                  // Centered course name
                   Center(
                     child: Text(
                       courseName,
@@ -61,7 +66,6 @@ class _CoursesPageState extends State<CoursesPage> {
                       textAlign: TextAlign.center,
                     ),
                   ),
-                  // Star button at bottom right
                   Positioned(
                     bottom: 0,
                     right: 0,
@@ -70,7 +74,6 @@ class _CoursesPageState extends State<CoursesPage> {
                           ? Icon(Icons.star)
                           : Icon(Icons.star_border),
                       onPressed: () {
-                        // Toggle the course's favorite status
                         widget.onCourseFavoriteToggle(courseName);
 
                         setState(() {
@@ -90,27 +93,6 @@ class _CoursesPageState extends State<CoursesPage> {
             ),
           );
         },
-      ),
-    );
-  }
-}
-
-class CoursePage extends StatelessWidget {
-  final String courseName;
-
-  CoursePage({required this.courseName});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Course - $courseName'),
-      ),
-      body: Center(
-        child: Text(
-          'Content for $courseName goes here.',
-          style: TextStyle(fontSize: 18),
-        ),
       ),
     );
   }
