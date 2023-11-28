@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:app1/majors.dart';
 
-void main() {
-  runApp(LoginPage());
-}
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
