@@ -9,15 +9,43 @@ class Majors extends StatefulWidget {
 class _MajorsState extends State<Majors> {
   final Map<String, Map<String, Widget>> majorCourses = {
     'Computer Science': {
-      'OS': CoursePage(courseName: 'OS'),
-      'WEB': CoursePage(courseName: 'WEB'),
-      'MOBILEAPP': CoursePage(courseName: 'MOBILEAPP'),
+      'OS': CoursePage(
+        courseName: 'OS',
+        coursePages: {}, 
+        onCourseFavoriteToggle: (courseName) {},
+      ),
+      'WEB': CoursePage(
+        courseName: 'WEB',
+        coursePages: {}, 
+        onCourseFavoriteToggle: (courseName) {},
+      ),
+      'MOBILEAPP': CoursePage(
+        courseName: 'MOBILEAPP',
+        coursePages: {}, 
+        onCourseFavoriteToggle: (courseName) {},
+      ),
     },
     'Electrical Engineering': {
-      'ENG200': CoursePage(courseName: 'ENG200'),
-      'ENG400': CoursePage(courseName: 'ENG400'),
-      'ENG678': CoursePage(courseName: 'ENG678'),
-      'ENG300': CoursePage(courseName: 'ENG300'),
+      'ENG200': CoursePage(
+        courseName: 'ENG200',
+        coursePages: {}, 
+        onCourseFavoriteToggle: (courseName) {},
+      ),
+      'ENG400': CoursePage(
+        courseName: 'ENG400',
+        coursePages: {}, 
+        onCourseFavoriteToggle: (courseName) {},
+      ),
+      'ENG678': CoursePage(
+        courseName: 'ENG678',
+        coursePages: {}, 
+        onCourseFavoriteToggle: (courseName) {},
+      ),
+      'ENG300': CoursePage(
+        courseName: 'ENG300',
+        coursePages: {}, 
+        onCourseFavoriteToggle: (courseName) {},
+      ),
     },
   };
 
@@ -37,30 +65,33 @@ class _MajorsState extends State<Majors> {
               decoration: BoxDecoration(
                 color: Color.fromARGB(255, 187, 95, 182),
               ),
-              child: Text(
-                'MyCourses',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
+              child: Center(
+                child: Text(
+                  'MyCourses',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                  ),
                 ),
               ),
             ),
-            // Use ListTile for each item in the Drawer
             ...favoritedCourses.map((item) => ListTile(
-                  title: Text(item),
+                  title: Center(child: Text(item)),
                   onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => CoursePage(
-                          courseName: '$item',
-                        ),
+                        builder: (context) => majorCourses.entries
+                            .expand((majorEntry) => majorEntry.value.entries
+                                .map((courseEntry) => courseEntry.value))
+                            .firstWhere(
+                              (coursePage) =>
+                                  (coursePage as CoursePage).courseName == item,
+                            ),
                       ),
                     );
-                    // Add your favorite item onPressed logic here
                   },
                 )),
-            // Add more items as needed
           ],
         ),
       ),
@@ -75,8 +106,8 @@ class _MajorsState extends State<Majors> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => CoursesPage(
-                      major: major,
+                    builder: (context) => CoursePage(
+                      courseName: major,
                       coursePages: majorCourses[major]!,
                       onCourseFavoriteToggle: (courseName) {
                         // Toggle the course's favorite status
