@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'courses.dart';
+import 'flipcard.dart';
 
 class Majors extends StatefulWidget {
   @override
@@ -11,39 +12,39 @@ class _MajorsState extends State<Majors> {
     'Computer Science': {
       'OS': CoursePage(
         courseName: 'OS',
-        coursePages: {}, 
+        coursePages: {},
         onCourseFavoriteToggle: (courseName) {},
       ),
       'WEB': CoursePage(
         courseName: 'WEB',
-        coursePages: {}, 
+        coursePages: {},
         onCourseFavoriteToggle: (courseName) {},
       ),
       'MOBILEAPP': CoursePage(
         courseName: 'MOBILEAPP',
-        coursePages: {}, 
+        coursePages: {},
         onCourseFavoriteToggle: (courseName) {},
       ),
     },
     'Electrical Engineering': {
       'ENG200': CoursePage(
         courseName: 'ENG200',
-        coursePages: {}, 
+        coursePages: {},
         onCourseFavoriteToggle: (courseName) {},
       ),
       'ENG400': CoursePage(
         courseName: 'ENG400',
-        coursePages: {}, 
+        coursePages: {},
         onCourseFavoriteToggle: (courseName) {},
       ),
       'ENG678': CoursePage(
         courseName: 'ENG678',
-        coursePages: {}, 
+        coursePages: {},
         onCourseFavoriteToggle: (courseName) {},
       ),
       'ENG300': CoursePage(
         courseName: 'ENG300',
-        coursePages: {}, 
+        coursePages: {},
         onCourseFavoriteToggle: (courseName) {},
       ),
     },
@@ -61,7 +62,7 @@ class _MajorsState extends State<Majors> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-            DrawerHeader(
+            const DrawerHeader(
               decoration: BoxDecoration(
                 color: Color.fromARGB(255, 187, 95, 182),
               ),
@@ -81,13 +82,12 @@ class _MajorsState extends State<Majors> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => majorCourses.entries
-                            .expand((majorEntry) => majorEntry.value.entries
-                                .map((courseEntry) => courseEntry.value))
-                            .firstWhere(
-                              (coursePage) =>
-                                  (coursePage as CoursePage).courseName == item,
-                            ),
+                        builder: (context) => Flip(
+                          courseName: item,
+                          onPointsClaimed: () {
+                            setState(() {});
+                          },
+                        ),
                       ),
                     );
                   },
@@ -131,13 +131,32 @@ class _MajorsState extends State<Majors> {
                 padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
                 fixedSize: Size(200, 150),
               ),
-              child: Text(
-                major,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 25.0,
-                ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  major == 'Computer Science'
+                      ? Icon(
+                          Icons.laptop,
+                          size: 40,
+                          color: Colors.white,
+                        )
+                      : major == 'Electrical Engineering'
+                          ? Icon(
+                              Icons.engineering,
+                              size: 40,
+                              color: Colors.white,
+                            )
+                          : SizedBox.shrink(),
+                  Text(
+                    major,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 25.0,
+                    ),
+                  ),
+                ],
               ),
             ),
           );
