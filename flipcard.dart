@@ -3,17 +3,19 @@ import 'package:flip_card/flip_card.dart';
 
 class Flip extends StatefulWidget {
   final String courseName;
-  final VoidCallback onPointsClaimed;
 
-  Flip({required this.courseName, required this.onPointsClaimed});
+  Flip({required this.courseName, required Null Function() onPointsClaimed});
 
   @override
   _FlipState createState() => _FlipState();
 }
 
 class _FlipState extends State<Flip> {
-  int totalPoints = 0;
+  static int totalPoints = 0;
+  static Set<String> clickedButtons = {};
+
   List<bool> buttonClickedList = List.generate(3, (index) => false);
+
   List<String> frontTexts = [
     'Deadlock',
     'Process Synchronization',
@@ -25,6 +27,44 @@ class _FlipState extends State<Flip> {
     "Process Synchronization is the coordination of execution of multiple processes in a multi-process system to ensure that they access shared resources in a controlled and predictable manner. It aims to resolve the problem of race conditions and other synchronization issues in a concurrent system.",
     "Threads are sequences of instructions given to the CPU, and threading techniques like multithreading and hyperthreading can improve performance. In operating system terms, threads are the smallest unit of execution within a process, allowing multiple tasks to be performed concurrently by the CPU.",
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    // Load previous state from static variables
+    totalPoints = getTotalPoints();
+    clickedButtons = getClickedButtons();
+  }
+
+  // Helper functions for state persistence
+  int getTotalPoints() {
+    return totalPoints;
+  }
+
+  Set<String> getClickedButtons() {
+    return clickedButtons;
+  }
+
+  void setTotalPoints(int points) {
+    totalPoints = points;
+  }
+
+  void setClickedButtons(Set<String> buttons) {
+    clickedButtons = buttons;
+  }
+
+  void onPointsClaimed(int index) {
+    setState(() {
+      totalPoints += 20;
+      clickedButtons.add('$index');
+    });
+  }
+
+  // Save state when navigating back or leaving the page
+  void saveState() {
+    setTotalPoints(totalPoints);
+    setClickedButtons(clickedButtons);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +89,7 @@ class _FlipState extends State<Flip> {
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () {
+              saveState(); // Save state when navigating back
               Navigator.pop(context);
             },
           ),
@@ -110,14 +151,10 @@ class _FlipState extends State<Flip> {
                     Positioned(
                       bottom: 10,
                       child: ElevatedButton(
-                        onPressed: buttonClickedList[index]
+                        onPressed: clickedButtons.contains('$index')
                             ? null
                             : () {
-                                widget.onPointsClaimed();
-                                setState(() {
-                                  totalPoints += 20;
-                                  buttonClickedList[index] = true;
-                                });
+                                onPointsClaimed(index);
                               },
                         child: Text('Claim 20 pts'),
                       ),
