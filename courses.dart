@@ -17,7 +17,7 @@ class CoursePage extends StatefulWidget {
 }
 
 class _CoursesPageState extends State<CoursePage> {
-  Set<String> favoritedCourses = Set<String>();
+  static Set<String> favoritedCourses = Set<String>();
 
   @override
   Widget build(BuildContext context) {
