@@ -23,7 +23,37 @@ class _CoursesPageState extends State<CoursePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Courses of - ${widget.courseName}'),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.school,
+              color: Colors.white,
+            ),
+            SizedBox(width: 20),
+            Text(
+              'Courses of - ${widget.courseName}',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Color.fromARGB(255, 187, 95, 182), // First color
+                Color.fromARGB(255, 115, 103, 240), // Second color
+              ],
+            ),
+          ),
+        ),
+        elevation: 0,
       ),
       body: ListView.builder(
         itemCount: widget.coursePages.length,
@@ -46,10 +76,11 @@ class _CoursesPageState extends State<CoursePage> {
                 );
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Color.fromARGB(255, 128, 204, 141),
+                backgroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8.0),
                 ),
+                side: BorderSide(color: Colors.black),
                 padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
                 fixedSize: Size(200, 125),
               ),
@@ -59,7 +90,7 @@ class _CoursesPageState extends State<CoursePage> {
                     child: Text(
                       courseName,
                       style: TextStyle(
-                        color: Colors.white,
+                        color: Colors.black,
                         fontWeight: FontWeight.bold,
                         fontSize: 30.0,
                       ),
@@ -71,8 +102,8 @@ class _CoursesPageState extends State<CoursePage> {
                     right: 0,
                     child: IconButton(
                       icon: favoritedCourses.contains(courseName)
-                          ? Icon(Icons.star)
-                          : Icon(Icons.star_border),
+                          ? Icon(Icons.favorite)
+                          : Icon(Icons.favorite_border),
                       onPressed: () {
                         widget.onCourseFavoriteToggle(courseName);
 
@@ -84,7 +115,7 @@ class _CoursesPageState extends State<CoursePage> {
                           }
                         });
                       },
-                      color: Colors.yellow,
+                      color: Colors.red,
                       iconSize: 30,
                     ),
                   ),
