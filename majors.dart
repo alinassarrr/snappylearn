@@ -56,7 +56,37 @@ class _MajorsState extends State<Majors> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Majors At LIU'),
+        title: const Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.school,
+              color: Colors.white,
+            ),
+            SizedBox(width: 20),
+            Text(
+              'Majors At LIU',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Color.fromARGB(255, 187, 95, 182), // First color
+                Color.fromARGB(255, 115, 103, 240), // Second color
+              ],
+            ),
+          ),
+        ),
+        elevation: 0,
       ),
       drawer: Drawer(
         child: ListView(
@@ -124,37 +154,49 @@ class _MajorsState extends State<Majors> {
                 );
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Color.fromARGB(255, 128, 204, 141),
+                backgroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8.0),
                 ),
+                side: BorderSide(color: Colors.black), // Set border color
                 padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
                 fixedSize: Size(200, 150),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  major == 'Computer Science'
-                      ? Icon(
+                  Row(
+                    children: [
+                      SizedBox(
+                          width: 120), // Add space between hat icon and text
+                      Center(
+                        child: Text(
+                          major,
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 25.0,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      if (major == 'Computer Science')
+                        Icon(
                           Icons.laptop,
                           size: 40,
-                          color: Colors.white,
-                        )
-                      : major == 'Electrical Engineering'
-                          ? Icon(
-                              Icons.engineering,
-                              size: 40,
-                              color: Colors.white,
-                            )
-                          : SizedBox.shrink(),
-                  Text(
-                    major,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 25.0,
-                    ),
+                          color: Colors.black,
+                        ),
+                      if (major == 'Electrical Engineering')
+                        Icon(
+                          Icons.engineering,
+                          size: 40,
+                          color: Colors.black,
+                        ),
+                    ],
                   ),
                 ],
               ),
