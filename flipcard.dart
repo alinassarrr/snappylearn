@@ -7,12 +7,13 @@ class Flip extends StatefulWidget {
   Flip({required this.courseName, required Null Function() onPointsClaimed});
 
   @override
-  _FlipState createState() => _FlipState();
+  _FlipState createState() => _FlipState(courseName);
 }
 
 class _FlipState extends State<Flip> {
   static int totalPoints = 0;
   static Set<String> clickedButtons = {};
+  _FlipState(String courseName);
 
   List<bool> buttonClickedList = List.generate(3, (index) => false);
 
@@ -72,7 +73,13 @@ class _FlipState extends State<Flip> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Flash Cards - ${widget.courseName}'),
+          title: Text(
+            'Flash Cards - ${widget.courseName}',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 25.0,
+            ),
+          ),
           actions: [
             Padding(
               padding: EdgeInsets.all(5.0),
@@ -80,7 +87,10 @@ class _FlipState extends State<Flip> {
                 children: [
                   Text(
                     'Total Points: $totalPoints',
-                    style: TextStyle(fontSize: 16.0),
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      color: Colors.white,
+                    ),
                   ),
                 ],
               ),
@@ -92,6 +102,18 @@ class _FlipState extends State<Flip> {
               saveState(); // Save state when navigating back
               Navigator.pop(context);
             },
+          ),
+          flexibleSpace: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Color.fromARGB(255, 187, 95, 182), // First color
+                  Color.fromARGB(255, 115, 103, 240), // Second color
+                ],
+              ),
+            ),
           ),
         ),
         body: ListView.builder(
