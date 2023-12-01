@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:app1/majors.dart';
 
-
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -34,14 +33,12 @@ class _MyAppState extends State<LoginPage> {
                   ),
                 ),
               ),
-              
               Column(
-                
-                mainAxisSize: MainAxisSize.min, // Ensure that the column takes minimum vertical space
+                mainAxisSize: MainAxisSize
+                    .min, // Ensure that the column takes minimum vertical space
                 children: [
                   SizedBox(
                     height: MediaQuery.of(context).size.height * .25,
-
                   ),
                   const Text(
                     'Welcome Back!',
@@ -60,8 +57,7 @@ class _MyAppState extends State<LoginPage> {
                     ),
                   ),
                   Padding(
-                  
-                    padding: const EdgeInsets.fromLTRB( 50.0,120.0,50.0,50.0),
+                    padding: const EdgeInsets.fromLTRB(50.0, 120.0, 50.0, 50.0),
                     child: Form(
                       key: _formKey, // Assign the key to the form
                       child: Column(
@@ -80,7 +76,7 @@ class _MyAppState extends State<LoginPage> {
                                       .blueAccent // Text color for "Password"
                                   ),
                               border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0),
+                                borderRadius: BorderRadius.circular(40.0),
                               ),
                             ),
                             onChanged: (String value) {},
@@ -104,7 +100,7 @@ class _MyAppState extends State<LoginPage> {
                                       .blueAccent // Text color for "Password"
                                   ),
                               border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0),
+                                borderRadius: BorderRadius.circular(40.0),
                               ),
                             ),
                             onChanged: (String value) {},
