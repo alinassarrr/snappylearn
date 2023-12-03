@@ -3,11 +3,9 @@ import 'package:flip_card/flip_card.dart';
 
 class Flip extends StatefulWidget {
   final String courseName;
-  final  Function() onPointsClaimed;
 
   Flip({
-    required this.courseName,
-    required this.onPointsClaimed,
+    required this.courseName, required Null Function(int index) onPointsClaimed,
   });
 
   @override
@@ -15,130 +13,132 @@ class Flip extends StatefulWidget {
 }
 
 class _FlipState extends State<Flip> {
-  static int totalPoints = 0;
-  static Set<String> clickedButtons = {};
-
+  static Map<String, int> courseTotalPoints = {};
+  static Map<String, Set<String>> courseClickedButtons = {};
   List<String> frontTexts = [];
   List<String> backTexts = [];
 
   @override
   void initState() {
     super.initState();
-     
-            if (widget.courseName == 'OS') {
-              frontTexts = [
-                'Understanding Deadlocks',
-                'Concurrency and Parallelism',
-                'Memory Management in OS',
-              ];
-              backTexts = [
-                'A deadlock occurs when each process in a set is blocked, each waiting for a resource acquired by another process in the set.',
-                'Concurrency allows multiple tasks to be executed in overlapping time periods, while parallelism involves the simultaneous execution of multiple tasks.',
-                'Memory management in OS involves tracking each byte in a computer\'s memory and managing the allocation and deallocation of memory spaces as needed.',
-              ];
-            } else if (widget.courseName == 'WEB') {
-              frontTexts = [
-                'Introduction to Web Development',
-                'Frontend Technologies',
-                'Backend Technologies',
-              ];
-              backTexts = [
-                'Web development involves building and maintaining websites, encompassing web design, web content development, client-side/server-side scripting, and network security configuration.',
-                'Frontend technologies include HTML, CSS, and JavaScript, focusing on the user interface and user experience of a website.',
-                'Backend technologies handle the server-side logic, databases, and application architecture, ensuring data management and business logic execution.',
-              ];
-            } else if (widget.courseName == 'MOBILEAPP') {
-              frontTexts = [
-                'Mobile App Development Basics',
-                'iOS App Development',
-                'Android App Development2',
-                'Android App Development',
-              ];
-              backTexts = [
-                'Mobile app development involves creating software applications that run on mobile devices, covering various platforms such as iOS and Android.',
-                'iOS app development focuses on creating applications for Apple\'s iOS devices, using programming languages like Swift and Objective-C.',
-                'Android app development involves creating applications for the Android operating system, using programming languages like Java and Kotlin.',
-                'Android app development involves creating applications for the Android operating system, using programming languages like Java and Kotlin.',
-              ];
-            
-          } 
-            if (widget.courseName == 'ENG200') {
-              frontTexts = [
-                'Introduction to Electrical Engineering',
-                'Circuit Analysis Basics',
-                'Electronic Components Overview',
-              ];
-              backTexts = [
-                'This course provides an introduction to the fundamentals of electrical engineering.',
-                'Learn the basics of circuit analysis and understand electrical circuits.',
-                'Explore different electronic components and their functions.',
-              ];
-            } else if (widget.courseName == 'ENG400') {
-              frontTexts = [
-                'Power Systems Engineering',
-                'Renewable Energy Integration',
-                'Electric Machines and Drives',
-              ];
-              backTexts = [
-                'Study the design and operation of power systems in electrical engineering.',
-                'Explore the integration of renewable energy sources into power systems.',
-                'Learn about electric machines and their applications in drives.',
-              ];
-            } else if (widget.courseName == 'ENG678') {
-              frontTexts = [
-                'Control Systems Engineering',
-                'Digital Signal Processing',
-                'Communication Systems',
-              ];
-              backTexts = [
-                'Explore the principles and applications of control systems in engineering.',
-                'Study digital signal processing techniques and their applications.',
-                'Learn about communication systems and signal transmission.',
-              ];
-            } else if (widget.courseName == 'ENG300') {
-              frontTexts = [
-                'Electromagnetic Fields and Waves',
-                'Microelectronics',
-                'Power Electronics',
-              ];
-              backTexts = [
-                'Understand electromagnetic fields and their behavior in waves.',
-                'Explore the principles of microelectronics and integrated circuits.',
-                'Study the application of electronics in power systems.',
-              ];
-            
-          }
-
-    totalPoints = getTotalPoints();
-    clickedButtons = getClickedButtons();
+    initializeCourseData();
   }
 
-  int getTotalPoints() {
-    return totalPoints;
-  }
+  void initializeCourseData() {
+    // Initialize total points and clicked buttons for each course
+    courseTotalPoints.putIfAbsent(widget.courseName, () => 0);
+    courseClickedButtons.putIfAbsent(widget.courseName, () => {});
 
-  Set<String> getClickedButtons() {
-    return clickedButtons;
-  }
+    // Initialize front and back texts based on the course
+    if (widget.courseName == 'OS') {
+      frontTexts = [
+        'Understanding Deadlocks',
+        'Concurrency and Parallelism',
+        'Memory Management in OS',
+      ];
+      backTexts = [
+        'A deadlock occurs when each process in a set is blocked, each waiting for a resource acquired by another process in the set.',
+        'Concurrency allows multiple tasks to be executed in overlapping time periods, while parallelism involves the simultaneous execution of multiple tasks.',
+        'Memory management in OS involves tracking each byte in a computer\'s memory and managing the allocation and deallocation of memory spaces as needed.',
+      ];
+    } else if (widget.courseName == 'WEB') {
+      frontTexts = [
+        'Introduction to Web Development',
+        'Frontend Technologies',
+        'Backend Technologies',
+      ];
+      backTexts = [
+        'Web development involves building and maintaining websites, encompassing web design, web content development, client-side/server-side scripting, and network security configuration.',
+        'Frontend technologies include HTML, CSS, and JavaScript, focusing on the user interface and user experience of a website.',
+        'Backend technologies handle the server-side logic, databases, and application architecture, ensuring data management and business logic execution.',
+      ];
+    } else if (widget.courseName == 'MOBILEAPP') {
+      frontTexts = [
+        'Mobile App Development Basics',
+        'iOS App Development',
+        'Android App Development2',
+        'Android App Development',
+      ];
+      backTexts = [
+        'Mobile app development involves creating software applications that run on mobile devices, covering various platforms such as iOS and Android.',
+        'iOS app development focuses on creating applications for Apple\'s iOS devices, using programming languages like Swift and Objective-C.',
+        'Android app development involves creating applications for the Android operating system, using programming languages like Java and Kotlin.',
+        'Android app development involves creating applications for the Android operating system, using programming languages like Java and Kotlin.',
+      ];
+    } else if (widget.courseName == 'ENG200') {
+      frontTexts = [
+        'Introduction to Electrical Engineering',
+        'Circuit Analysis Basics',
+        'Electronic Components Overview',
+      ];
+      backTexts = [
+        'This course provides an introduction to the fundamentals of electrical engineering.',
+        'Learn the basics of circuit analysis and understand electrical circuits.',
+        'Explore different electronic components and their functions.',
+      ];
+    } else if (widget.courseName == 'ENG400') {
+      frontTexts = [
+        'Power Systems Engineering',
+        'Renewable Energy Integration',
+        'Electric Machines and Drives',
+      ];
+      backTexts = [
+        'Study the design and operation of power systems in electrical engineering.',
+        'Explore the integration of renewable energy sources into power systems.',
+        'Learn about electric machines and their applications in drives.',
+      ];
+    } else if (widget.courseName == 'ENG678') {
+      frontTexts = [
+        'Control Systems Engineering',
+        'Digital Signal Processing',
+        'Communication Systems',
+      ];
+      backTexts = [
+        'Explore the principles and applications of control systems in engineering.',
+        'Study digital signal processing techniques and their applications.',
+        'Learn about communication systems and signal transmission.',
+      ];
+    } else if (widget.courseName == 'ENG300') {
+      frontTexts = [
+        'Electromagnetic Fields and Waves',
+        'Microelectronics',
+        'Power Electronics',
+      ];
+      backTexts = [
+        'Understand electromagnetic fields and their behavior in waves.',
+        'Explore the principles of microelectronics and integrated circuits.',
+        'Study the application of electronics in power systems.',
+      ];
+    }
 
-  void setTotalPoints(int points) {
-    totalPoints = points;
-  }
-
-  void setClickedButtons(Set<String> buttons) {
-    clickedButtons = buttons;
-  }
-
-  void onPointsClaimed(int index) {
+    // Retrieve total points and clicked buttons for the current course
+    
     setState(() {
-      totalPoints += 20;
-      clickedButtons.add('$index');
+      frontTexts = [...frontTexts]; 
+      backTexts = [...backTexts];   
     });
   }
 
+  void onPointsClaimed(int index) {
+  setState(() {
+  int currentTotalPoints;
+    if (courseTotalPoints[widget.courseName] != null) {
+      currentTotalPoints = courseTotalPoints[widget.courseName]!;
+    } else {
+      currentTotalPoints = 0;
+    }
+    courseTotalPoints[widget.courseName] = currentTotalPoints + 20;
+    courseClickedButtons[widget.courseName]!.add('$index');
+  });
+}
+
+
   void saveState() {
-    setTotalPoints(totalPoints);
-    setClickedButtons(clickedButtons);
+    // Save the total points and clicked buttons for the current course
+    courseTotalPoints[widget.courseName] =
+        courseTotalPoints[widget.courseName]!;
+    courseClickedButtons[widget.courseName] =
+        courseClickedButtons[widget.courseName]!;
   }
 
   @override
@@ -160,7 +160,7 @@ class _FlipState extends State<Flip> {
               child: Row(
                 children: [
                   Text(
-                    'Total Points: $totalPoints',
+                    'Total Points: ${courseTotalPoints[widget.courseName]}',
                     style: TextStyle(
                       fontSize: 16.0,
                       color: Colors.white,
@@ -271,11 +271,11 @@ class _FlipState extends State<Flip> {
                             color: Colors.black,
                             width: 2.0,
                           ),
-                          backgroundColor: clickedButtons.contains('$index')
+                          backgroundColor: courseClickedButtons[widget.courseName]!.contains('$index')
                               ? Colors.grey
                               : Colors.white,
                         ),
-                        onPressed: clickedButtons.contains('$index')
+                        onPressed: courseClickedButtons[widget.courseName]!.contains('$index')
                             ? null
                             : () {
                                 onPointsClaimed(index);
