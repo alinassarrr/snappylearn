@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'flipcard.dart'; 
+import 'flipcard.dart';
 import 'courses.dart';
 
 class Majors extends StatefulWidget {
@@ -40,13 +40,11 @@ class _MajorsState extends State<Majors> {
       'ENG678': CoursePage(
         courseName: 'ENG678',
         coursePages: {},
-        
         onCourseFavoriteToggle: (courseName) {},
       ),
       'ENG300': CoursePage(
         courseName: 'ENG300',
         coursePages: {},
-      
         onCourseFavoriteToggle: (courseName) {},
       ),
     },
@@ -145,9 +143,10 @@ class _MajorsState extends State<Majors> {
                       MaterialPageRoute(
                         builder: (context) => Flip(
                           courseName: item,
-                     
-                          onPointsClaimed: () {
-                            setState(() {});
+                          onPointsClaimed: (int index) {
+                            setState(() {
+                              // You can use the index parameter if needed
+                            });
                           },
                         ),
                       ),
