@@ -41,6 +41,9 @@ class _CoursesPageState extends State<CoursePage> {
             ),
           ],
         ),
+        iconTheme: IconThemeData(
+          color: Colors.white,
+        ),
         flexibleSpace: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
@@ -59,6 +62,7 @@ class _CoursesPageState extends State<CoursePage> {
         itemCount: widget.coursePages.length,
         itemBuilder: (context, index) {
           var courseName = widget.coursePages.keys.elementAt(index);
+
           return Padding(
             padding: const EdgeInsets.all(8.0),
             child: ElevatedButton(
@@ -115,7 +119,7 @@ class _CoursesPageState extends State<CoursePage> {
                           }
                         });
                       },
-                      color: Colors.red,
+                      color: Color.fromARGB(255, 187, 95, 182),
                       iconSize: 30,
                     ),
                   ),
