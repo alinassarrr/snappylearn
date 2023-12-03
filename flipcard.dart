@@ -3,41 +3,116 @@ import 'package:flip_card/flip_card.dart';
 
 class Flip extends StatefulWidget {
   final String courseName;
+  final  Function() onPointsClaimed;
 
-  Flip({required this.courseName, required Null Function() onPointsClaimed});
+  Flip({
+    required this.courseName,
+    required this.onPointsClaimed,
+  });
 
   @override
-  _FlipState createState() => _FlipState(courseName);
+  _FlipState createState() => _FlipState();
 }
 
 class _FlipState extends State<Flip> {
   static int totalPoints = 0;
   static Set<String> clickedButtons = {};
-  _FlipState(String courseName);
 
-  List<bool> buttonClickedList = List.generate(3, (index) => false);
-
-  List<String> frontTexts = [
-    'Deadlock',
-    'Process Synchronization',
-    'Threads',
-  ];
-
-  List<String> backTexts = [
-    "A set of blocked processes each holding a resource and waiting to acquire a resource held by another process in the set. Example: System has 2 disk drives P1 and P2, each holds one disk drive and each needs another one.",
-    "Process Synchronization is the coordination of execution of multiple processes in a multi-process system to ensure that they access shared resources in a controlled and predictable manner. It aims to resolve the problem of race conditions and other synchronization issues in a concurrent system.",
-    "Threads are sequences of instructions given to the CPU, and threading techniques like multithreading and hyperthreading can improve performance. In operating system terms, threads are the smallest unit of execution within a process, allowing multiple tasks to be performed concurrently by the CPU.",
-  ];
+  List<String> frontTexts = [];
+  List<String> backTexts = [];
 
   @override
   void initState() {
     super.initState();
-    // Load previous state from static variables
+     
+            if (widget.courseName == 'OS') {
+              frontTexts = [
+                'Understanding Deadlocks',
+                'Concurrency and Parallelism',
+                'Memory Management in OS',
+              ];
+              backTexts = [
+                'A deadlock occurs when each process in a set is blocked, each waiting for a resource acquired by another process in the set.',
+                'Concurrency allows multiple tasks to be executed in overlapping time periods, while parallelism involves the simultaneous execution of multiple tasks.',
+                'Memory management in OS involves tracking each byte in a computer\'s memory and managing the allocation and deallocation of memory spaces as needed.',
+              ];
+            } else if (widget.courseName == 'WEB') {
+              frontTexts = [
+                'Introduction to Web Development',
+                'Frontend Technologies',
+                'Backend Technologies',
+              ];
+              backTexts = [
+                'Web development involves building and maintaining websites, encompassing web design, web content development, client-side/server-side scripting, and network security configuration.',
+                'Frontend technologies include HTML, CSS, and JavaScript, focusing on the user interface and user experience of a website.',
+                'Backend technologies handle the server-side logic, databases, and application architecture, ensuring data management and business logic execution.',
+              ];
+            } else if (widget.courseName == 'MOBILEAPP') {
+              frontTexts = [
+                'Mobile App Development Basics',
+                'iOS App Development',
+                'Android App Development2',
+                'Android App Development',
+              ];
+              backTexts = [
+                'Mobile app development involves creating software applications that run on mobile devices, covering various platforms such as iOS and Android.',
+                'iOS app development focuses on creating applications for Apple\'s iOS devices, using programming languages like Swift and Objective-C.',
+                'Android app development involves creating applications for the Android operating system, using programming languages like Java and Kotlin.',
+                'Android app development involves creating applications for the Android operating system, using programming languages like Java and Kotlin.',
+              ];
+            
+          } 
+            if (widget.courseName == 'ENG200') {
+              frontTexts = [
+                'Introduction to Electrical Engineering',
+                'Circuit Analysis Basics',
+                'Electronic Components Overview',
+              ];
+              backTexts = [
+                'This course provides an introduction to the fundamentals of electrical engineering.',
+                'Learn the basics of circuit analysis and understand electrical circuits.',
+                'Explore different electronic components and their functions.',
+              ];
+            } else if (widget.courseName == 'ENG400') {
+              frontTexts = [
+                'Power Systems Engineering',
+                'Renewable Energy Integration',
+                'Electric Machines and Drives',
+              ];
+              backTexts = [
+                'Study the design and operation of power systems in electrical engineering.',
+                'Explore the integration of renewable energy sources into power systems.',
+                'Learn about electric machines and their applications in drives.',
+              ];
+            } else if (widget.courseName == 'ENG678') {
+              frontTexts = [
+                'Control Systems Engineering',
+                'Digital Signal Processing',
+                'Communication Systems',
+              ];
+              backTexts = [
+                'Explore the principles and applications of control systems in engineering.',
+                'Study digital signal processing techniques and their applications.',
+                'Learn about communication systems and signal transmission.',
+              ];
+            } else if (widget.courseName == 'ENG300') {
+              frontTexts = [
+                'Electromagnetic Fields and Waves',
+                'Microelectronics',
+                'Power Electronics',
+              ];
+              backTexts = [
+                'Understand electromagnetic fields and their behavior in waves.',
+                'Explore the principles of microelectronics and integrated circuits.',
+                'Study the application of electronics in power systems.',
+              ];
+            
+          }
+
     totalPoints = getTotalPoints();
     clickedButtons = getClickedButtons();
   }
 
-  // Helper functions for state persistence
   int getTotalPoints() {
     return totalPoints;
   }
@@ -61,7 +136,6 @@ class _FlipState extends State<Flip> {
     });
   }
 
-  // Save state when navigating back or leaving the page
   void saveState() {
     setTotalPoints(totalPoints);
     setClickedButtons(clickedButtons);
@@ -98,8 +172,9 @@ class _FlipState extends State<Flip> {
           ],
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
+            color: Colors.white,
             onPressed: () {
-              saveState(); // Save state when navigating back
+              saveState();
               Navigator.pop(context);
             },
           ),
@@ -109,16 +184,20 @@ class _FlipState extends State<Flip> {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  Color.fromARGB(255, 187, 95, 182), // First color
-                  Color.fromARGB(255, 115, 103, 240), // Second color
+                  Color.fromARGB(255, 187, 95, 182),
+                  Color.fromARGB(255, 115, 103, 240),
                 ],
               ),
             ),
           ),
         ),
         body: ListView.builder(
-          itemCount: 3,
+          itemCount: backTexts.length,
           itemBuilder: (context, index) {
+            if (index >= backTexts.length) {
+              return Container(); 
+            }
+
             return FlipCard(
               direction: FlipDirection.HORIZONTAL,
               flipOnTouch: true,
@@ -127,7 +206,14 @@ class _FlipState extends State<Flip> {
                 height: 300,
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.black, width: 2.0),
-                  color: Colors.blue,
+                  gradient: const LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      Color.fromARGB(255, 187, 95, 182), 
+                      Color.fromARGB(255, 115, 103, 240), 
+                    ],
+                  ),
                   borderRadius: BorderRadius.circular(25.0),
                 ),
                 child: Center(
@@ -145,8 +231,15 @@ class _FlipState extends State<Flip> {
                 width: 500,
                 height: 400,
                 decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      Color.fromARGB(255, 187, 95, 182), // First color
+                      Color.fromARGB(255, 115, 103, 240), // Second color
+                    ],
+                  ),
                   border: Border.all(color: Colors.black, width: 2.0),
-                  color: Colors.green,
                   borderRadius: BorderRadius.circular(15.0),
                 ),
                 child: Stack(
@@ -162,7 +255,7 @@ class _FlipState extends State<Flip> {
                           child: Text(
                             backTexts[index],
                             style: TextStyle(
-                              color: Colors.black,
+                              color: Color.fromARGB(255, 1, 45, 82),
                               fontSize: 25.0,
                             ),
                           ),
@@ -172,13 +265,28 @@ class _FlipState extends State<Flip> {
                     ),
                     Positioned(
                       bottom: 10,
-                      child: ElevatedButton(
+                      child: OutlinedButton(
+                        style: OutlinedButton.styleFrom(
+                          side: BorderSide(
+                            color: Colors.black,
+                            width: 2.0,
+                          ),
+                          backgroundColor: clickedButtons.contains('$index')
+                              ? Colors.grey
+                              : Colors.white,
+                        ),
                         onPressed: clickedButtons.contains('$index')
                             ? null
                             : () {
                                 onPointsClaimed(index);
                               },
-                        child: Text('Claim 20 pts'),
+                        child: Text(
+                          'Claim 20pts',
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            color: Color.fromARGB(255, 115, 103, 240),
+                          ),
+                        ),
                       ),
                     ),
                   ],
