@@ -50,8 +50,8 @@ class _CoursesPageState extends State<CoursePage> {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                Color.fromARGB(255, 187, 95, 182), // First color
-                Color.fromARGB(255, 115, 103, 240), // Second color
+                Color.fromARGB(255, 187, 95, 182), 
+                Color.fromARGB(255, 115, 103, 240), 
               ],
             ),
           ),
@@ -72,8 +72,9 @@ class _CoursesPageState extends State<CoursePage> {
                   MaterialPageRoute(
                     builder: (context) => Flip(
                       courseName: courseName,
-                      onPointsClaimed: () {
-                        setState(() {});
+                      onPointsClaimed: (int index) {
+                        setState(() {
+                        });
                       },
                     ),
                   ),
