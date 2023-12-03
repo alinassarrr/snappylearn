@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'flipcard.dart'; 
 import 'courses.dart';
-import 'flipcard.dart';
 
 class Majors extends StatefulWidget {
   @override
@@ -40,11 +40,13 @@ class _MajorsState extends State<Majors> {
       'ENG678': CoursePage(
         courseName: 'ENG678',
         coursePages: {},
+        
         onCourseFavoriteToggle: (courseName) {},
       ),
       'ENG300': CoursePage(
         courseName: 'ENG300',
         coursePages: {},
+      
         onCourseFavoriteToggle: (courseName) {},
       ),
     },
@@ -56,23 +58,28 @@ class _MajorsState extends State<Majors> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.school,
-              color: Colors.white,
-            ),
-            SizedBox(width: 20),
-            Text(
-              'Majors At LIU',
-              style: TextStyle(
+        iconTheme: const IconThemeData(
+          color: Colors.white,
+        ),
+        title: const Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.school,
                 color: Colors.white,
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
               ),
-            ),
-          ],
+              SizedBox(width: 15),
+              Text(
+                'Majors At LIU',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
         ),
         flexibleSpace: Container(
           decoration: const BoxDecoration(
@@ -107,13 +114,38 @@ class _MajorsState extends State<Majors> {
               ),
             ),
             ...favoritedCourses.map((item) => ListTile(
-                  title: Center(child: Text(item)),
+                  title: Center(
+                    child: Container(
+                      padding: EdgeInsets.all(8.0),
+                      margin: EdgeInsets.symmetric(vertical: 8.0),
+                      height: 60,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12.0),
+                        border: Border.all(
+                            color: Color.fromARGB(255, 115, 103, 240),
+                            width: 2.0),
+                        color: Color.fromARGB(255, 115, 103, 240),
+                      ),
+                      child: Center(
+                        child: Text(
+                          item,
+                          style: TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
+                            color: Color.fromARGB(255, 255, 255, 255),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                   onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => Flip(
                           courseName: item,
+                     
                           onPointsClaimed: () {
                             setState(() {});
                           },
@@ -140,7 +172,6 @@ class _MajorsState extends State<Majors> {
                       courseName: major,
                       coursePages: majorCourses[major]!,
                       onCourseFavoriteToggle: (courseName) {
-                        // Toggle the course's favorite status
                         setState(() {
                           if (favoritedCourses.contains(courseName)) {
                             favoritedCourses.remove(courseName);
@@ -158,7 +189,7 @@ class _MajorsState extends State<Majors> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8.0),
                 ),
-                side: BorderSide(color: Colors.black), // Set border color
+                side: BorderSide(color: Colors.black),
                 padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
                 fixedSize: Size(200, 150),
               ),
@@ -167,8 +198,7 @@ class _MajorsState extends State<Majors> {
                 children: [
                   Row(
                     children: [
-                      SizedBox(
-                          width: 120), // Add space between hat icon and text
+                      SizedBox(width: 120),
                       Center(
                         child: Text(
                           major,
