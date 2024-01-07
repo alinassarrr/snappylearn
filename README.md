@@ -1,2 +1,2 @@
-# mobapp
-Create a mobile app project
+# snappylearm
+Snappy Learn Mobile App
